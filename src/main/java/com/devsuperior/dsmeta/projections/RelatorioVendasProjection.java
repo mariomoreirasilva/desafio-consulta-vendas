@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public interface RelatorioVendasProjection {
 	Long getId();
 	LocalDate getdate();
-	Integer getdeals();
+	Integer getDeals();
 	String getname();
 
 }

@@ -3,45 +3,45 @@ package com.devsuperior.dsmeta.dto;
 import java.time.LocalDate;
 
 import com.devsuperior.dsmeta.projections.RelatorioVendasProjection;
-
+//antes estava com erro pois o nome dos campos do dto estava diferentes da entity.
 public class RelatorioVendasDTO {
 	
 	private Long id;
-	private LocalDate data;
-	private Integer qtdVendida;
-	private String nomeVendedor;
+	private LocalDate date;
+	private Integer deals;
+	private String name;
 	
 	public RelatorioVendasDTO() {		
 	}
 
 	public RelatorioVendasDTO(Long id, LocalDate data, Integer qtdVendida, String nomeVendedor) {		
 		this.id = id;
-		this.data = data;
-		this.qtdVendida = qtdVendida;
-		this.nomeVendedor = nomeVendedor;
+		this.date = data;
+		this.deals = qtdVendida;
+		this.name = nomeVendedor;
 	}
 	
 	public RelatorioVendasDTO(RelatorioVendasProjection projection) {
 		id = projection.getId();
-		data = projection.getdate();
-		qtdVendida = projection.getdeals();
-		nomeVendedor = projection.getname();
+		date = projection.getdate();
+		deals = projection.getDeals();
+		name = projection.getname();
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public LocalDate getdata() {
-		return data;
+	public LocalDate getdate() {
+		return date;
 	}
 
-	public Integer getqtdVendida() {
-		return qtdVendida;
+	public Integer getDeals() {
+		return deals;
 	}
 
-	public String getnomeVendedor() {
-		return nomeVendedor;
+	public String getName() {
+		return name;
 	}
 
 	public void setId(Long id) {
@@ -49,21 +49,21 @@ public class RelatorioVendasDTO {
 	}
 
 	public void setData(LocalDate data) {
-		this.data = data;
+		this.date = data;
 	}
 
 	public void setqtdVendida(Integer qtdVendida) {
-		this.qtdVendida = qtdVendida;
+		this.deals = qtdVendida;
 	}
 
 	public void setnomeVendedor(String nomeVendedor) {
-		this.nomeVendedor = nomeVendedor;
+		this.name = nomeVendedor;
 	}
 
 	@Override
 	public String toString() {
-		return "RelatorioVendasDTO [id=" + id + ", data=" + data + ", qtdVendida=" + qtdVendida + ", nomeVendedor="
-				+ nomeVendedor + "]";
+		return "RelatorioVendasDTO [id=" + id + ", data=" + date + ", qtdVendida=" + deals + ", nomeVendedor="
+				+ name + "]";
 	}
 
 

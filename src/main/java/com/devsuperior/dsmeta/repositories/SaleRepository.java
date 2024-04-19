@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.devsuperior.dsmeta.dto.RelatorioVendasDTO;
 import com.devsuperior.dsmeta.entities.Sale;
 import com.devsuperior.dsmeta.projections.RelatorioVendasProjection;
+import com.devsuperior.dsmeta.projections.SumarioVendasProjection;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
 	
@@ -30,5 +31,11 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 			+ "WHERE obj.date BETWEEN :dataIni AND :dataFim "
 			+ "AND UPPER(obj.seller.name) LIKE UPPER(CONCAT('%', :nome, '%'))")
 	Page<RelatorioVendasProjection> buscaRelatorioVendaPaginado(LocalDate dataIni, LocalDate dataFim, String nome, Pageable pegeable);
+	
+	@Query(value = "SELECT new com.devsuperior.dsmeta.dto.SumarioVendasDTO(obj.seller.name, SUM(obj.deals)) "
+			+ "FROM Sale obj "		
+			+ "WHERE obj.date BETWEEN :dataIni AND :dataFim "
+			+ "GROUP BY obj.seller.name")
+	List<SumarioVendasProjection> buscaSumarioVenda(LocalDate dataIni, LocalDate dataFim);
 
 }

@@ -15,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.dsmeta.dto.RelatorioVendasDTO;
 import com.devsuperior.dsmeta.dto.SaleMinDTO;
+import com.devsuperior.dsmeta.dto.SumarioVendasDTO;
 import com.devsuperior.dsmeta.entities.Sale;
 import com.devsuperior.dsmeta.projections.RelatorioVendasProjection;
+import com.devsuperior.dsmeta.projections.SumarioVendasProjection;
 import com.devsuperior.dsmeta.repositories.SaleRepository;
 
 @Service
@@ -30,13 +32,7 @@ public class SaleService {
 		Sale entity = result.get();
 		return new SaleMinDTO(entity);
 	}
-	/*
-	///Busca paginada
-		@Transactional(readOnly = true)
-		public Page<ClientDTO> findAll(Pageable pageable) {
-			Page<Client> result = repository.findAll(pageable);		
-			return result.map(x -> new ClientDTO(x));
-	*/
+	
 	@Transactional(readOnly = true)
 	public List<RelatorioVendasDTO> relatorioVenda(LocalDate dataIni, LocalDate dataFim, String nome) {
 		List<RelatorioVendasProjection> list =  repository.buscaRelatorioVenda(dataIni, dataFim, nome);
@@ -54,7 +50,7 @@ public class SaleService {
 	
 	public Page<RelatorioVendasDTO> relatorioVendaPaginado(String dataIni, String dataFim, String nome,Pageable pegeable){
 		LocalDate dIni, dFim;
-		if(dataFim == "") {
+		if(dataFim == null) {
 			dFim = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
 			dIni = dFim.minusYears(1L);
 		}
@@ -66,6 +62,24 @@ public class SaleService {
 		
 		Page<RelatorioVendasProjection> resultadoVenda = repository.buscaRelatorioVendaPaginado(dIni, dFim, nome, pegeable);
 		return resultadoVenda.map(x -> new RelatorioVendasDTO(x));		
+	}
+	
+	public List<SumarioVendasDTO> sumarioVenda(String dataIni, String dataFim){
+		LocalDate dIni, dFim;
+		if(dataFim == null) {
+			dFim = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+			dIni = dFim.minusYears(1L);
+		}
+		else
+		{
+			dIni = LocalDate.parse(dataIni);
+			dFim = LocalDate.parse(dataFim);
+		}
+		
+		List<SumarioVendasProjection> resultadoSumario = repository.buscaSumarioVenda(dIni, dFim);
+				
+		return resultadoSumario.stream().map(x -> new SumarioVendasDTO(x)).collect(Collectors.toList());
+		
 	}
 	
 	
